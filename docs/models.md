@@ -3,7 +3,7 @@
 ## Entities
 
 - Product (barcode, name, quantityInStock)
-- ProductOrder (id, barcode, orderQuantity, orderDate)
+- ProductOrder (id, Product, orderQuantity, orderDate)
 - ProductInput (id, idProductOrder, inputQuantity, inputDate)
 - ProductOutput (id, barcode, outputQuantity, outputDate)
 
