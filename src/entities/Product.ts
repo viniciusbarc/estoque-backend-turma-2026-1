@@ -20,6 +20,10 @@ export class Product {
         return new Product(barcode, name, quantityInStock);
     }
 
+    public static rebuild(barcode: string, name: string, quantityInStock: number): Product {
+        return new Product(barcode, name, quantityInStock);
+    }
+
     public getBarcode(): string {
         return this.barcode;
     }

@@ -43,5 +43,21 @@ describe("testing Product entity", () => {
 
     });
 
+    test("should rebuild a product with valid properties", () => {
+        const barcode: string = "1234567890123";
+        const name: string = "Coca Cola 2L";
+        const quantityInStock: number = 100;
+
+        const product = Product.rebuild(barcode, name, quantityInStock);
+
+        expect(product).toBeInstanceOf(Product);
+
+        if (product instanceof Product) {
+            expect(product.getBarcode()).toBe(barcode);
+            expect(product.getName()).toBe(name);
+            expect(product.getQuantityInStock()).toBe(quantityInStock);
+        }
+    });
+
 
 });
