@@ -3,7 +3,12 @@ import { Product } from "../entities/Product";
 import { InfrastructureError } from "../InfrastructureError";
 import type { SqliteConnection } from "./SqliteConnection";
 
-export class ProductRepository {
+export interface ProductRepositoryInterface {
+    create(product: Product): void | InfrastructureError;
+    findByBarcode(barcode: string): Product | null | InfrastructureError;
+}
+
+export class ProductRepository implements ProductRepositoryInterface {
 
     private sqliteConnection: SqliteConnection;
 
@@ -24,4 +29,20 @@ export class ProductRepository {
         }
     }
 
+    public findByBarcode(barcode: string): Product | null | InfrastructureError {
+        try {
+            const connection: Database.Database = this.sqliteConnection.getConnection();
+            const selectStatement = connection.prepare(
+                "SELECT * FROM products WHERE barcode = ?"
+            );
+            const row = selectStatement.get(barcode) as { barcode: string; name: string; quantity_in_stock: number } | undefined;
+            if (row) {
+                return Product.rebuild(row.barcode, row.name, row.quantity_in_stock);
+            } else {
+                return null;
+            }
+        } catch (error) {
+            return new InfrastructureError("Failed to find product by barcode");
+        }
+    }
 }
