@@ -8,7 +8,11 @@ export interface CreateProductDTO {
     quantityInStock: number;
 }
 
-export class CreateProductUsecase {
+export interface CreateProductUsecaseInterface {
+    execute(barcode: string, name: string): CreateProductDTO | Error;
+}
+
+export class CreateProductUsecase implements CreateProductUsecaseInterface {
 
     private productRepository: ProductRepositoryInterface;
 

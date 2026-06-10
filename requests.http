@@ -1,0 +1,8 @@
+POST http://localhost:3000/products HTTP/1.1
+content-type: application/json
+
+{
+    "barcode": "1234567890",
+    "name": "Fanta Uva 350ml"
+}
+

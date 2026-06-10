@@ -1,26 +1,24 @@
-import readlineSync from "readline-sync";
+import fastify from "fastify";
 import { Product } from "./entities/Product";
 import { SqliteConnection } from "./repositories/SqliteConnection";
 import { ProductRepository } from "./repositories/ProductRepository";
 import { InfrastructureError } from "./InfrastructureError";
 import { CreateProductUsecase } from "./usecases/CreateProductUsecase";
+import { CreateProductController } from "./controllers/CreateProductController";
 
 const sqliteConnection = new SqliteConnection("db/estoque.sqlite");
 const productRepository = new ProductRepository(sqliteConnection);
 const createProductUsecase = new CreateProductUsecase(productRepository);
+const createProductController = new CreateProductController(createProductUsecase);
 
-const barcode = readlineSync.question("Enter the product barcode: ");
-const name = readlineSync.question("Enter the product name: ");
+const app = fastify();
 
-const product = createProductUsecase.execute(barcode, name);
+app.post("/products", async (request, reply) => { await createProductController.handle(request, reply); });
 
-if (product instanceof InfrastructureError) {
-    console.log("Internal error 500 creating product:", product.message);
-} else if (product instanceof Error) {
-    console.log("Error creating product:", product.message);
-} else {
-    console.log("Product created successfully:");
-    console.log("Barcode: ", product.barcode);
-    console.log("Name: ", product.name);
-    console.log("Quantity in Stock: ", product.quantityInStock);
-}
+app.listen({ port: 3000 }, (err, address) => {
+    if (err) {
+        console.error("Error starting server:", err);
+        process.exit(1);
+    }
+    console.log(`Server is running at ${address}`);
+});
