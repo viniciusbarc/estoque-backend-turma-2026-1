@@ -15,9 +15,9 @@ export class CreateProductController {
             reply.status(400).send({ error: "Invalid request body" });
             return;
         }
-        const { barcode, name } = request.body as { barcode?: string, name?: string };
+        const { barcode, name } = request.body as { barcode: string, name: string };
 
-        const result = this.createProductUseCase.execute(barcode ?? "", name ?? "");
+        const result = this.createProductUseCase.execute(barcode, name);
 
         if (result instanceof InfrastructureError) {
             reply.status(500).send({ error: result.message });

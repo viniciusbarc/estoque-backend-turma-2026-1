@@ -1,0 +1,21 @@
+name: CI do controle de estoque
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copiar repositório para o runner
+        uses: actions/checkout@v6
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Instalar dependências do projeto
+        run: npm install
+
+      - name: Executar testes
+        run: npm test
