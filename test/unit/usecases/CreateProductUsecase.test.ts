@@ -1,8 +1,8 @@
-import { Product } from "../../src/entities/Product";
-import { InfrastructureError } from "../../src/InfrastructureError";
-import type { ProductRepositoryInterface } from "../../src/repositories/ProductRepository";
-import { CreateProductUsecase } from "../../src/usecases/CreateProductUsecase";
-import type { CreateProductDTO } from "../../src/usecases/CreateProductUsecase";
+import { Product } from "../../../src/entities/Product";
+import { InfrastructureError } from "../../../src/InfrastructureError";
+import type { ProductRepositoryInterface } from "../../../src/repositories/ProductRepository";
+import { CreateProductUsecase } from "../../../src/usecases/CreateProductUsecase";
+import type { CreateProductDTO } from "../../../src/usecases/CreateProductUsecase";
 
 describe("CreateProductUsecase tests", () => {
 
@@ -26,7 +26,7 @@ describe("CreateProductUsecase tests", () => {
         const result = createProductUsecase.execute(barcode, name);
 
         expect(result).not.toBeInstanceOf(Error);
-        expect(result).toEqual({barcode: barcode, name: name, quantityInStock: 0} as CreateProductDTO);
+        expect(result).toEqual({ barcode: barcode, name: name, quantityInStock: 0 } as CreateProductDTO);
     });
 
     test("should return an InfrastructureError when the method findByBarcode return an error", async () => {
@@ -75,7 +75,7 @@ describe("CreateProductUsecase tests", () => {
         expect(result).toBeInstanceOf(Error);
         expect((result as Error).message).toBe("Product with the same barcode already exists");
 
-    });    
+    });
 
     test("should return an Error when the entity returns an error", async () => {
 
@@ -98,7 +98,7 @@ describe("CreateProductUsecase tests", () => {
 
         expect(result).toBeInstanceOf(Error);
         expect((result as Error).message).toBe("Name is required");
-    });    
+    });
 
     test("should return an InfrastructureError when the method create return an error", async () => {
 

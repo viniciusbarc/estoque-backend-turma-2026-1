@@ -1,6 +1,6 @@
-import { CreateProductController } from "../../src/controllers/CreateProductController";
-import { InfrastructureError } from "../../src/InfrastructureError";
-import type { CreateProductDTO, CreateProductUsecaseInterface } from "../../src/usecases/CreateProductUsecase";
+import { CreateProductController } from "../../../src/controllers/CreateProductController";
+import { InfrastructureError } from "../../../src/InfrastructureError";
+import type { CreateProductDTO, CreateProductUsecaseInterface } from "../../../src/usecases/CreateProductUsecase";
 
 describe('Testing CreateProductController', () => {
 
@@ -45,7 +45,7 @@ describe('Testing CreateProductController', () => {
     test('should return an error 400 if the body is not present', async () => {
 
         const requestMock: any = {
-            
+
         };
 
         const responseMock: any = {
@@ -74,7 +74,7 @@ describe('Testing CreateProductController', () => {
 
         expect(responseMock.statusCode).toBe(400);
         expect(responseMock.data).toEqual({ error: "Invalid request body" });
-        
+
     });
 
     test('should return an error 500 if receive an InfrastructureError from usecase', async () => {

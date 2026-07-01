@@ -1,9 +1,9 @@
-import { Product } from "../../src/entities/Product";
-import { ProductOrder } from "../../src/entities/ProductOrder";
-import { InfrastructureError } from "../../src/InfrastructureError";
-import type { ProductOrderRepositoryInterface } from "../../src/repositories/ProductOrderRepository";
-import type { ProductRepositoryInterface } from "../../src/repositories/ProductRepository";
-import { CreateProductOrderUsecase } from "../../src/usecases/CreateProductOrderUsecase";
+import { Product } from "../../../src/entities/Product";
+import { ProductOrder } from "../../../src/entities/ProductOrder";
+import { InfrastructureError } from "../../../src/InfrastructureError";
+import type { ProductOrderRepositoryInterface } from "../../../src/repositories/ProductOrderRepository";
+import type { ProductRepositoryInterface } from "../../../src/repositories/ProductRepository";
+import { CreateProductOrderUsecase } from "../../../src/usecases/CreateProductOrderUsecase";
 
 describe("CreateProductOrderUsecase tests", () => {
 
@@ -37,7 +37,7 @@ describe("CreateProductOrderUsecase tests", () => {
         expect(result).not.toBeInstanceOf(Error);
         if (!(result instanceof Error)) {
             expect(result.id).toBeDefined();
-            expect(result.productBarcode).toBe(barcode);
+            expect(result.product.barcode).toBe(barcode);
             expect(result.orderQuantity).toBe(orderQuantity);
             expect(result.orderDate).toBe(orderDate);
         }

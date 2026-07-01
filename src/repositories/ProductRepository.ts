@@ -22,10 +22,10 @@ export class ProductRepository implements ProductRepositoryInterface {
             const insertStatement = connection.prepare(
                 "INSERT INTO products (barcode, name, quantity_in_stock) VALUES (?, ?, ?)"
             );
-            insertStatement.run(product.getBarcode(), product.getName(), 
+            insertStatement.run(product.getBarcode(), product.getName(),
                 product.getQuantityInStock());
         } catch (error) {
-            return new InfrastructureError("Failed to create product");
+            return new InfrastructureError("Database error");
         }
     }
 
@@ -42,7 +42,7 @@ export class ProductRepository implements ProductRepositoryInterface {
                 return null;
             }
         } catch (error) {
-            return new InfrastructureError("Failed to find product by barcode");
+            return new InfrastructureError("Database error");
         }
     }
 }

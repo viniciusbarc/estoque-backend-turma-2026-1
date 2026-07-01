@@ -1,5 +1,5 @@
-import { ProductOrder } from "../../src/entities/ProductOrder";
-import { Product } from "../../src/entities/Product";
+import { ProductOrder } from "../../../src/entities/ProductOrder";
+import { Product } from "../../../src/entities/Product";
 
 describe("testing ProductOrder entity", () => {
   test("should create a product order with valid properties", () => {

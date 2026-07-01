@@ -6,12 +6,16 @@ import type { ProductOrderRepositoryInterface } from "../repositories/ProductOrd
 
 export interface CreateProductOrderDTO {
     id: string;
-    productBarcode: string;
+    product: Product;
     orderQuantity: number;
     orderDate: Date;
 }
 
-export class CreateProductOrderUsecase {
+export interface CreateProductOrderUsecaseInterface {
+    execute(barcode: string, orderQuantity: number, orderDate: Date): CreateProductOrderDTO | Error;
+}
+
+export class CreateProductOrderUsecase implements CreateProductOrderUsecaseInterface {
 
     private productRepository: ProductRepositoryInterface;
     private productOrderRepository: ProductOrderRepositoryInterface;
@@ -45,7 +49,7 @@ export class CreateProductOrderUsecase {
 
         return {
             id: productOrder.getId(),
-            productBarcode: productOrder.getProduct().getBarcode(),
+            product: productOrder.getProduct(),
             orderQuantity: productOrder.getOrderQuantity(),
             orderDate: productOrder.getOrderDate()
         };

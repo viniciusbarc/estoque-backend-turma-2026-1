@@ -1,6 +1,6 @@
-import { CreateProductOrderController } from "../../src/controllers/CreateProductOrderController";
-import { InfrastructureError } from "../../src/InfrastructureError";
-import type { CreateProductOrderDTO } from "../../src/usecases/CreateProductOrderUsecase";
+import { CreateProductOrderController } from "../../../src/controllers/CreateProductOrderController";
+import { InfrastructureError } from "../../../src/InfrastructureError";
+import type { CreateProductOrderDTO, CreateProductOrderUsecaseInterface } from "../../../src/usecases/CreateProductOrderUsecase";
 
 describe('Testing CreateProductOrderController', () => {
 
@@ -26,27 +26,35 @@ describe('Testing CreateProductOrderController', () => {
             }
         };
 
-        class CreateProductOrderUseCaseMock {
+        class CreateProductOrderUseCaseMock implements CreateProductOrderUsecaseInterface {
             execute(barcode: string, orderQuantity: number, orderDate: Date): CreateProductOrderDTO | Error {
-                return { 
-                    id: "random-uuid", 
-                    productBarcode: "123456", 
-                    orderQuantity: 10, 
+                return {
+                    id: "random-uuid",
+                    product: {
+                        barcode: "123456",
+                        name: "Coca Cola 2L",
+                        quantityInStock: 10
+                    },
+                    orderQuantity: 10,
                     orderDate: new Date('2026-06-20T10:00:00Z')
                 };
             }
         }
 
-        const createProductOrderUseCaseMock = new CreateProductOrderUseCaseMock() as any;
+        const createProductOrderUseCaseMock = new CreateProductOrderUseCaseMock();
         const createProductOrderController = new CreateProductOrderController(createProductOrderUseCaseMock);
 
         await createProductOrderController.handle(requestMock, responseMock);
 
         expect(responseMock.statusCode).toBe(201);
-        expect(responseMock.data).toEqual({ 
-            id: "random-uuid", 
-            productBarcode: "123456", 
-            orderQuantity: 10, 
+        expect(responseMock.data).toEqual({
+            id: "random-uuid",
+            product: {
+                barcode: "123456",
+                name: "Coca Cola 2L",
+                quantityInStock: 10
+            },
+            orderQuantity: 10,
             orderDate: new Date('2026-06-20T10:00:00Z')
         });
     });
@@ -67,13 +75,13 @@ describe('Testing CreateProductOrderController', () => {
             }
         };
 
-        class CreateProductOrderUseCaseMock {
+        class CreateProductOrderUseCaseMock implements CreateProductOrderUsecaseInterface {
             execute(barcode: string, orderQuantity: number, orderDate: Date): CreateProductOrderDTO | Error {
-                return { id: "123", productBarcode: "123456", orderQuantity: 10, orderDate: new Date() };
+                return Error("This should not be called in this test");
             }
         }
 
-        const createProductOrderUseCaseMock = new CreateProductOrderUseCaseMock() as any;
+        const createProductOrderUseCaseMock = new CreateProductOrderUseCaseMock();
         const createProductOrderController = new CreateProductOrderController(createProductOrderUseCaseMock);
 
         await createProductOrderController.handle(requestMock, responseMock);
@@ -104,13 +112,13 @@ describe('Testing CreateProductOrderController', () => {
             }
         };
 
-        class CreateProductOrderUseCaseMock {
+        class CreateProductOrderUseCaseMock implements CreateProductOrderUsecaseInterface {
             execute(barcode: string, orderQuantity: number, orderDate: Date): CreateProductOrderDTO | Error {
                 return new InfrastructureError("Database connection failed");
             }
         }
 
-        const createProductOrderUseCaseMock = new CreateProductOrderUseCaseMock() as any;
+        const createProductOrderUseCaseMock = new CreateProductOrderUseCaseMock();
         const createProductOrderController = new CreateProductOrderController(createProductOrderUseCaseMock);
 
         await createProductOrderController.handle(requestMock, responseMock);
@@ -141,13 +149,13 @@ describe('Testing CreateProductOrderController', () => {
             }
         };
 
-        class CreateProductOrderUseCaseMock {
+        class CreateProductOrderUseCaseMock implements CreateProductOrderUsecaseInterface {
             execute(barcode: string, orderQuantity: number, orderDate: Date): CreateProductOrderDTO | Error {
                 return new Error("A quantidade do pedido deve ser maior que zero.");
             }
         }
 
-        const createProductOrderUseCaseMock = new CreateProductOrderUseCaseMock() as any;
+        const createProductOrderUseCaseMock = new CreateProductOrderUseCaseMock();
         const createProductOrderController = new CreateProductOrderController(createProductOrderUseCaseMock);
 
         await createProductOrderController.handle(requestMock, responseMock);
