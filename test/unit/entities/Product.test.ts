@@ -23,10 +23,16 @@ describe("testing Product entity", () => {
         const name: string = "Coca Cola 2L";
         const product = Product.create(barcode, name);
         expect(product).toBeInstanceOf(Error);
+        if (product instanceof Error) {
+            expect(product.message).toBe("Barcode is required");
+        }
 
         const barcode2: string = "       ";
         const product2 = Product.create(barcode2, name);
         expect(product2).toBeInstanceOf(Error);
+        if (product2 instanceof Error) {
+            expect(product2.message).toBe("Barcode is required");
+        }
 
     });
 

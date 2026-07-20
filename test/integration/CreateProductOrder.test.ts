@@ -24,12 +24,13 @@ describe("CreateProductOrder integration tests", () => {
         const product = Product.rebuild('123456', 'Coca Cola 350ml', 100);
         productRepository.create(product);
 
+        const orderDate = new Date();
+
         const requestMock: any = {
             body: {
                 barcode: '123456',
-                name: 'Coca Cola 350ml',
                 orderQuantity: 10,
-                orderDate: new Date().toISOString(),
+                orderDate: orderDate.toISOString(),
             }
         };
 
@@ -49,12 +50,12 @@ describe("CreateProductOrder integration tests", () => {
         await createProductOrderController.handle(requestMock, responseMock);
 
         expect(responseMock.statusCode).toBe(201);
+        expect(responseMock.data).toHaveProperty('id', expect.any(String));
         expect(responseMock.data).toHaveProperty('orderQuantity', 10);
-        expect(responseMock.data).toHaveProperty('product');
-        if (responseMock.data.product instanceof Product) {
-            expect(responseMock.data.product.getBarcode()).toBe('123456');
-            expect(responseMock.data.product.getName()).toBe('Coca Cola 350ml');
-        }
+        expect(responseMock.data).toHaveProperty('orderDate', orderDate);
+        expect(responseMock.data).toHaveProperty('product.barcode', '123456');
+        expect(responseMock.data).toHaveProperty('product.name', 'Coca Cola 350ml');
+        expect(responseMock.data).toHaveProperty('product.quantityInStock', 100);
 
     });
 
