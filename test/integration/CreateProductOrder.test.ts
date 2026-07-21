@@ -53,6 +53,7 @@ describe("CreateProductOrder integration tests", () => {
         expect(responseMock.data).toHaveProperty('id', expect.any(String));
         expect(responseMock.data).toHaveProperty('orderQuantity', 10);
         expect(responseMock.data).toHaveProperty('orderDate', orderDate);
+        expect(responseMock.data).toHaveProperty('status', 'opened');
         expect(responseMock.data).toHaveProperty('product.barcode', '123456');
         expect(responseMock.data).toHaveProperty('product.name', 'Coca Cola 350ml');
         expect(responseMock.data).toHaveProperty('product.quantityInStock', 100);

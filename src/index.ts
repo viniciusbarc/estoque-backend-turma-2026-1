@@ -8,6 +8,7 @@ import { CreateProductOrderUsecase } from "./usecases/CreateProductOrderUsecase"
 
 import { CreateProductController } from "./controllers/CreateProductController";
 import { CreateProductOrderController } from "./controllers/CreateProductOrderController";
+import { CreateProductInputController } from "./controllers/CreateProductInputController";
 
 // Instanciação da infraestrutura de banco de dados
 const sqliteConnection = new SqliteConnection("db/estoque.sqlite");
@@ -24,6 +25,8 @@ const createProductOrderUsecase = new CreateProductOrderUsecase(productRepositor
 const createProductController = new CreateProductController(createProductUsecase);
 const createProductOrderController = new CreateProductOrderController(createProductOrderUsecase);
 
+const createProductInputController = new CreateProductInputController();
+
 const app = fastify();
 
 // Declaração de Rotas da API
@@ -33,6 +36,10 @@ app.post("/products", async (request, reply) => {
 
 app.post("/product-orders", async (request, reply) => { 
     await createProductOrderController.handle(request, reply); 
+});
+
+app.post("/product-inputs", async (request, reply) => { 
+    await createProductInputController.handle(request, reply); 
 });
 
 app.listen({ port: 3000 }, (err, address) => {

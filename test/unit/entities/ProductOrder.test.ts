@@ -16,6 +16,7 @@ describe("testing ProductOrder entity", () => {
       expect(productOrder.getProduct()).toBe(product);
       expect(productOrder.getOrderQuantity()).toBe(orderQuantity);
       expect(productOrder.getOrderDate()).toBe(orderDate);
+      expect(productOrder.getStatus()).toBe("opened");
     }
   });
 

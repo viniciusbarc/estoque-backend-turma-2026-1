@@ -35,9 +35,14 @@ export class CreateProductOrderController {
             // Sucesso na criação do recurso (Status 201)
             return reply.status(201).send({ 
                 id: result.id,
-                product: result.product,
+                product: {
+                    barcode: result.product.barcode,
+                    name: result.product.name,
+                    quantityInStock: result.product.quantityInStock
+                },
                 orderQuantity: result.orderQuantity,
-                orderDate: result.orderDate
+                orderDate: result.orderDate,
+                status: result.status
             });
     }
 }

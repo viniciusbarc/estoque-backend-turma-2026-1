@@ -9,5 +9,14 @@ CREATE TABLE product_orders (
     product_barcode TEXT NOT NULL,
     order_quantity INTEGER NOT NULL,
     order_date TEXT NOT NULL,
+    status TEXT NOT NULL,
     FOREIGN KEY (product_barcode) REFERENCES products(barcode)
-)
+);
+
+CREATE TABLE product_inputs (
+    id TEXT PRIMARY KEY,
+    product_order_id TEXT NOT NULL,
+    input_quantity INTEGER NOT NULL,
+    input_date TEXT NOT NULL,
+    FOREIGN KEY (product_order_id) REFERENCES product_orders(id)
+);

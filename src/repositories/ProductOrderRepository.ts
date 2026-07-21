@@ -19,13 +19,14 @@ export class ProductOrderRepository implements ProductOrderRepositoryInterface {
         try {
             const connection: Database.Database = this.sqliteConnection.getConnection();
             const insertStatement = connection.prepare(
-                "INSERT INTO product_orders (id, product_barcode, order_quantity, order_date) VALUES (?, ?, ?, ?)"
+                "INSERT INTO product_orders (id, product_barcode, order_quantity, order_date, status) VALUES (?, ?, ?, ?, ?)"
             );
             insertStatement.run(
                 productOrder.getId(),
                 productOrder.getProduct().getBarcode(),
                 productOrder.getOrderQuantity(),
-                productOrder.formatOrderDate()
+                productOrder.formatOrderDate(),
+                productOrder.getStatus()
             );
         } catch (error) {
             return new InfrastructureError("Failed to create product order");

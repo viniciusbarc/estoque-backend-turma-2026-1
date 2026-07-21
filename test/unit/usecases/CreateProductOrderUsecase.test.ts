@@ -40,6 +40,7 @@ describe("CreateProductOrderUsecase tests", () => {
             expect(result.product.barcode).toBe(barcode);
             expect(result.orderQuantity).toBe(orderQuantity);
             expect(result.orderDate).toBe(orderDate);
+            expect(result.status).toBe("opened");
         }
     });
 

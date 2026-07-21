@@ -36,7 +36,8 @@ describe('Testing CreateProductOrderController', () => {
                         quantityInStock: 10
                     },
                     orderQuantity: 10,
-                    orderDate: new Date('2026-06-20T10:00:00Z')
+                    orderDate: new Date('2026-06-20T10:00:00Z'),
+                    status: "opened"
                 };
             }
         }
@@ -55,7 +56,8 @@ describe('Testing CreateProductOrderController', () => {
                 quantityInStock: 10
             },
             orderQuantity: 10,
-            orderDate: new Date('2026-06-20T10:00:00Z')
+            orderDate: new Date('2026-06-20T10:00:00Z'),
+            status: "opened"
         });
     });
 

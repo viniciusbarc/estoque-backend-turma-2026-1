@@ -4,11 +4,18 @@ import { InfrastructureError } from "../InfrastructureError";
 import type { ProductRepositoryInterface } from "../repositories/ProductRepository";
 import type { ProductOrderRepositoryInterface } from "../repositories/ProductOrderRepository";
 
+export interface ProductDTO {
+    barcode: string;
+    name: string;
+    quantityInStock: number;
+}
+
 export interface CreateProductOrderDTO {
     id: string;
-    product: Product;
+    product: ProductDTO;
     orderQuantity: number;
     orderDate: Date;
+    status: string;
 }
 
 export interface CreateProductOrderUsecaseInterface {
@@ -49,9 +56,14 @@ export class CreateProductOrderUsecase implements CreateProductOrderUsecaseInter
 
         return {
             id: productOrder.getId(),
-            product: productOrder.getProduct(),
+            product: {
+                barcode: productOrder.getProduct().getBarcode(),
+                name: productOrder.getProduct().getName(),
+                quantityInStock: productOrder.getProduct().getQuantityInStock()
+            },
             orderQuantity: productOrder.getOrderQuantity(),
-            orderDate: productOrder.getOrderDate()
+            orderDate: productOrder.getOrderDate(),
+            status: productOrder.getStatus()
         };
     }
 }

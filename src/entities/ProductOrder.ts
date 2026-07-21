@@ -5,12 +5,14 @@ export class ProductOrder{
     private product: Product;
     private orderQuantity: number;
     private orderDate: Date;
+    private status: string;
 
-    private constructor(id: string, product: Product, orderQuantity: number, orderDate: Date){
+    private constructor(id: string, product: Product, orderQuantity: number, orderDate: Date, status: string){
         this.id = id;
         this.product = product;
         this.orderQuantity = orderQuantity;
         this.orderDate = orderDate;
+        this.status = status;
     }
 
     public static create(product: Product, orderQuantity: number, orderDate: Date): ProductOrder | Error{
@@ -34,7 +36,8 @@ export class ProductOrder{
             crypto.randomUUID(),
             product,
             orderQuantity,
-            orderDate
+            orderDate,
+            "opened"
         );
     }
 
@@ -56,6 +59,10 @@ export class ProductOrder{
 
     public getOrderDate(): Date {
         return this.orderDate;
+    }
+
+    public getStatus(): string {
+        return this.status;
     }
 
     public formatOrderDate(): string{
